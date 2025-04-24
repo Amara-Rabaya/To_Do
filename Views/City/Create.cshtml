@@ -1,0 +1,54 @@
+﻿@model Tranning_pro.Models.City
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>City</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="cityID"></label>
+                <input asp-for="cityID" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="cityName" class="control-label"></label>
+                <input asp-for="cityName" class="form-control" />
+                <span asp-validation-for="cityName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="governorate" class="control-label"></label>
+                <input asp-for="governorate" class="form-control" />
+                <span asp-validation-for="governorate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="country" class="control-label"></label>
+                <input asp-for="country" class="form-control" />
+                <span asp-validation-for="country" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="cityRank" class="control-label"></label>
+                <input asp-for="cityRank" class="form-control" />
+                <span asp-validation-for="cityRank" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="populations" class="control-label"></label>
+                <input asp-for="populations" class="form-control" />
+                <span asp-validation-for="populations" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
