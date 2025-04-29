@@ -1,64 +1,40 @@
-﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Data.SqlClient;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Tranning_pro.Data;
 using Tranning_pro.Models;
 
 namespace Tranning_pro.Repositories
 {
     public class CityRepository
     {
-        private string connectionString;
+        private readonly ApplicationDbContext _context;
 
-        public CityRepository(IConfiguration configuration)
+        public CityRepository(ApplicationDbContext context)
         {
-            connectionString = configuration.GetConnectionString("DefaultConnection");
+            _context = context;
         }
 
         public List<City> GetAll()
         {
-            List<City> cities = new List<City>();
-
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                SqlCommand cmd = new SqlCommand("GetAllCities", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                conn.Open();
-
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
-                {
-                    cities.Add(new City
-                    {
-                        cityName = reader["cityName"].ToString(),
-                        governorate = reader["governorate"].ToString(),
-                        country = reader["country"].ToString(),
-                        cityRank = reader["cityRank"] != DBNull.Value ? Convert.ToInt32(reader["cityRank"]) : 0,
-                        populations = reader["populations"] != DBNull.Value ? Convert.ToInt32(reader["populations"]) : 0
-                    });
-                }
-            }
-
-            return cities;
+            return _context.Cities.ToList();
         }
 
-        public void Insert(City city)
+        public bool Insert(City city)
         {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                SqlCommand cmd = new SqlCommand("insretCity", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@cityID", city.cityID);
-                cmd.Parameters.AddWithValue("@cityName", city.cityName);
-                cmd.Parameters.AddWithValue("@governorate", city.governorate ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@country", city.country ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@cityRank", city.cityRank);
-                cmd.Parameters.AddWithValue("@populations", city.populations);
-
-                conn.Open();
-                cmd.ExecuteNonQuery();
+                _context.Cities.Add(city);
+               var result = _context.SaveChanges();
+                if (result > 0)
+                {
+                    return true;
+                }
+                else { return false; }  
+            }
+            catch (Exception)
+            {
+                // Optional: log the exception or rethrow if needed
+                return false;
             }
         }
     }
