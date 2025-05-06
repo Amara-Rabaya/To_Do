@@ -52,8 +52,13 @@ namespace Tranning_pro.Repositories
                 existingCity.cityName = city.cityName;
                 existingCity.governorate = city.governorate;
                 existingCity.country = city.country;
+<<<<<<< HEAD
                 existingCity.populations = city.populations;
                 existingCity.cityRank = CalcCityRank.Calculate(city.populations);
+=======
+                existingCity.cityRank = city.cityRank;
+                existingCity.populations = city.populations;
+>>>>>>> 955201b083e84a6163c162a3a83df828799523b4
 
                 var result = _context.SaveChanges() ;
                 if (result > 0)
