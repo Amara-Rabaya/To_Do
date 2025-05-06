@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Tranning_pro.Models;
 using DAL.ModelsNew;
 using Tranning_pro.Repositories;
+using Tranning_pro.BL;
 
 namespace Tranning_pro.Controllers
 { 
@@ -10,9 +11,9 @@ namespace Tranning_pro.Controllers
 
     public class CityController : Controller
     {
-        private readonly CityRepositoryDAL _cityRepo;
+        private readonly CityBLServece _cityRepo;
 
-        public CityController(CityRepositoryDAL cityRepo)
+        public CityController(CityBLServece cityRepo)
         {
             _cityRepo = cityRepo;
         }
@@ -26,7 +27,7 @@ namespace Tranning_pro.Controllers
         {
             if (ModelState.IsValid)
             {
-                _cityRepo.Insert(city);
+                _cityRepo.addCity(city);
                 return RedirectToAction(nameof(Index));
             }
             return View(city);
@@ -47,7 +48,7 @@ namespace Tranning_pro.Controllers
 
             try
             {
-                var isAdded = _cityRepo.Insert(city);
+                var isAdded = _cityRepo.addCity(city);
 
                 if (isAdded)
                 {
@@ -94,7 +95,7 @@ namespace Tranning_pro.Controllers
         {
             try
             {
-                var isEdited = _cityRepo.Edit(city);
+                var isEdited = _cityRepo.updateCity(city);
 
                 if (isEdited)
                 {
@@ -145,7 +146,7 @@ namespace Tranning_pro.Controllers
         {
             try
             {
-                var cities = _cityRepo.GetAll();
+                var cities = _cityRepo.gitAll();
 
                 if (cities == null || !cities.Any())
                 {
@@ -178,7 +179,7 @@ namespace Tranning_pro.Controllers
         {
             try
             {
-                var isDeleted = _cityRepo.Delete(id);
+                var isDeleted = _cityRepo.deleteCity(id);
 
                 if (isDeleted)
                 {

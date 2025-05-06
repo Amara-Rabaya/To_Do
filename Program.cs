@@ -4,6 +4,7 @@ using Tranning_pro.Repositories;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using DAL.Repositores;
+using Tranning_pro.BL;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,9 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddScoped<CityRepositoryDAL>();
 builder.Services.AddScoped<LogsRepository>();
+builder.Services.AddScoped<CityBLServece>();
+builder.Services.AddScoped<LogsBLServices>();
+
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
