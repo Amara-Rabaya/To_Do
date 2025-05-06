@@ -1,8 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using Tranning_pro.Data;
+using DAL.DataBase;
 using Tranning_pro.Repositories;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using DAL.Repositores;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,15 +19,13 @@ builder.Services.AddSwaggerGen(c =>
     c.IncludeXmlComments(xmlPath);
 });
 
-builder.Services.AddScoped<CityRepository>();
+builder.Services.AddScoped<CityRepositoryDAL>();
 builder.Services.AddScoped<LogsRepository>();
-<<<<<<< HEAD
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-=======
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
->>>>>>> 955201b083e84a6163c162a3a83df828799523b4
 
 var app = builder.Build();
 

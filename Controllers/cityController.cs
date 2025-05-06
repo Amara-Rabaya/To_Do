@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Tranning_pro.Models;
+using DAL.ModelsNew;
 using Tranning_pro.Repositories;
 
 namespace Tranning_pro.Controllers
@@ -9,9 +10,9 @@ namespace Tranning_pro.Controllers
 
     public class CityController : Controller
     {
-        private readonly CityRepository _cityRepo;
+        private readonly CityRepositoryDAL _cityRepo;
 
-        public CityController(CityRepository cityRepo)
+        public CityController(CityRepositoryDAL cityRepo)
         {
             _cityRepo = cityRepo;
         }
@@ -21,7 +22,7 @@ namespace Tranning_pro.Controllers
         
 
         [HttpPost]
-        public IActionResult Create([FromBody] City city)
+        public IActionResult Create([FromBody] CityDAL city)
         {
             if (ModelState.IsValid)
             {
@@ -32,7 +33,7 @@ namespace Tranning_pro.Controllers
         }
         
         [HttpPost("CreateAPI")]
-        public IActionResult CreateAPI([FromBody] City city)
+        public IActionResult CreateAPI([FromBody] CityDAL city)
         {
             if (!ModelState.IsValid)
             {
@@ -77,7 +78,6 @@ namespace Tranning_pro.Controllers
             }
             catch (Exception ex)
             {
-<<<<<<< HEAD
                 return StatusCode(500, new
                 {
                     success = false,
@@ -90,7 +90,7 @@ namespace Tranning_pro.Controllers
         /// Edit Cities
         /// </summary>
         [HttpPut("EditAPI")]
-        public IActionResult EditAPI([FromBody] City city)
+        public IActionResult EditAPI([FromBody] CityDAL city)
         {
             try
             {
@@ -199,8 +199,7 @@ namespace Tranning_pro.Controllers
             }
             catch (Exception ex)
             {
-=======
->>>>>>> 955201b083e84a6163c162a3a83df828799523b4
+
                 return StatusCode(500, new
                 {
                     success = false,
@@ -210,121 +209,10 @@ namespace Tranning_pro.Controllers
             }
         }
 
-<<<<<<< HEAD
-=======
-        [HttpPut("EditAPI")]
-        public IActionResult EditAPI([FromBody] City city)
-        {
-            try
-            {
-                var isEdited = _cityRepo.Edit(city);
 
-                if (isEdited)
-                {
-                    return Ok(new
-                    {
-                        success = true,
-                        message = "City updated successfully.",
-                        data = city
-                    });
-                }
-                else
-                {
-                    return NotFound(new
-                    {
-                        success = false,
-                        message = "City not found or update failed."
-                    });
-                }
-            }
-            catch (DbUpdateException dbEx)
-            {
-                return StatusCode(500, new
-                {
-                    success = false,
-                    message = "Database update failed.",
-                    error = dbEx.Message
-                });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new
-                {
-                    success = false,
-                    message = "An unexpected error occurred.",
-                    error = ex.Message
-                });
-            }
-        }
-        [HttpGet("GetAllAPI")]
-        public IActionResult GetAllAPI()
-        {
-            try
-            {
-                var cities = _cityRepo.GetAll();
+        
+        
 
-                if (cities == null || !cities.Any())
-                {
-                    return NotFound(new
-                    {
-                        success = false,
-                        message = "No cities found."
-                    });
-                }
-
-                return Ok(new
-                {
-                    success = true,
-                    message = "Cities retrieved successfully.",
-                    data = cities
-                });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new
-                {
-                    success = false,
-                    message = "An unexpected error occurred.",
-                    error = ex.Message
-                });
-            }
-        }
-        [HttpDelete("DeleteAPI/{id}")]
-        public IActionResult DeleteAPI(int id)
-        {
-            try
-            {
-                var isDeleted = _cityRepo.Delete(id);
-
-                if (isDeleted)
-                {
-                    return Ok(new
-                    {
-                        success = true,
-                        message = "City deleted successfully."
-                    });
-                }
-                else
-                {
-                    return NotFound(new
-                    {
-                        success = false,
-                        message = "City not found or delete failed."
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new
-                {
-                    success = false,
-                    message = "An unexpected error occurred.",
-                    error = ex.Message
-                });
-            }
-        }
-
->>>>>>> 955201b083e84a6163c162a3a83df828799523b4
 
 
 
