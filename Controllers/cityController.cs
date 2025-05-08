@@ -2,8 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Tranning_pro.Models;
 using DAL.ModelsNew;
-using Tranning_pro.Repositories;
+using DAL.Repositories;
 using Tranning_pro.BL;
+using Tranning_pro.BLInterface;
 
 namespace Tranning_pro.Controllers
 { 
@@ -11,9 +12,9 @@ namespace Tranning_pro.Controllers
 
     public class CityController : Controller
     {
-        private readonly CityBLServece _cityRepo;
+        private readonly ICityBLServece _cityRepo;
 
-        public CityController(CityBLServece cityRepo)
+        public CityController(ICityBLServece cityRepo)
         {
             _cityRepo = cityRepo;
         }

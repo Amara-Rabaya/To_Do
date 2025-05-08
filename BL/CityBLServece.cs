@@ -1,31 +1,48 @@
-﻿using DAL.ModelsNew;
-using Tranning_pro.Repositories;
+﻿using DAL.Interface;
+using DAL.ModelsNew;
+using Tranning_pro.BLInterface;
+using Tranning_pro.Helper;
 
 namespace Tranning_pro.BL
 {
-    public class CityBLServece
+    public class CityBLServece: ICityBLServece
     {
-        private readonly CityRepositoryDAL _CityRepositoryDAL;
-        public CityBLServece(CityRepositoryDAL cityRepositoryDAL)
+        private readonly ICityRepositoryDAL _ICityRepositoryDAL;
+        private readonly ILogsRepository _ILogsRepository;
+        public CityBLServece(ICityRepositoryDAL icityRepositoryDAL, ILogsRepository iLogsRepository)
         {
-            _CityRepositoryDAL = cityRepositoryDAL; 
+            _ICityRepositoryDAL = icityRepositoryDAL; 
+            _ILogsRepository = iLogsRepository;
         }
 
         public List<CityDAL> gitAll()
         {
             try
             {
-                _CityRepositoryDAL.GetAll();    
-                return true;
+                var x= _ICityRepositoryDAL.GetAll();
+                return x;
+                
             }
-            catch { 
-                return false;   
+            catch (Exception ex){
+                return null;
+               
+                 
             }
         }
         public bool addCity(CityDAL city) {
             try
             {
-                _CityRepositoryDAL.Insert(city);
+                var rank = cityRankHelper.Calculate(city.populations);
+                var cityModel = new CityDAL
+                {
+                    cityID = city.cityID,
+                    cityName = city.cityName,
+                    populations = city.populations,
+                    governorate = city.governorate,
+                    country = city.country, 
+                    cityRank = rank,    
+                };
+                _ICityRepositoryDAL.Insert(cityModel);
                 return true;
 
             }
@@ -38,7 +55,7 @@ namespace Tranning_pro.BL
         public bool updateCity(CityDAL city) {
             try
             {
-                _CityRepositoryDAL.Edit(city);  
+                _ICityRepositoryDAL.Edit(city);  
                 return true;
             }
             catch {  return false;}
@@ -46,7 +63,7 @@ namespace Tranning_pro.BL
         public bool deleteCity(int id) {
             try
             {
-                _CityRepositoryDAL.Delete(id);
+                _ICityRepositoryDAL.Delete(id);
                 return true;
             }
             catch { return false; }

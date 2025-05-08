@@ -1,13 +1,15 @@
-﻿using DAL.Repositores;
+﻿using DAL.Interface;
+using DAL.Repositores;
+using Tranning_pro.BLInterface;
 
 namespace Tranning_pro.BL
 {
-    public class LogsBLServices
+    public class LogsBLServices: ILogsBLServices
     {
-        private readonly LogsRepository _logsRepository;
-        public LogsBLServices(LogsRepository logsRepository)
+        private readonly ILogsRepository _ILogsRepository;
+        public LogsBLServices(ILogsRepository logsRepository)
         {
-            _logsRepository = logsRepository;   
+            _ILogsRepository = logsRepository;   
 
 
         }
@@ -15,7 +17,7 @@ namespace Tranning_pro.BL
         {
             try
             {
-                _logsRepository.Add(detalies);
+                _ILogsRepository.Add(detalies);
                 return true;    
             }
             catch (Exception ex)

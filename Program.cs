@@ -1,10 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using DAL.DataBase;
-using Tranning_pro.Repositories;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using DAL.Repositores;
+using DAL.Interface;
 using Tranning_pro.BL;
+using Tranning_pro.BLInterface;
+using DAL.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,16 +22,16 @@ builder.Services.AddSwaggerGen(c =>
     c.IncludeXmlComments(xmlPath);
 });
 
-builder.Services.AddScoped<CityRepositoryDAL>();
-builder.Services.AddScoped<LogsRepository>();
-builder.Services.AddScoped<CityBLServece>();
-builder.Services.AddScoped<LogsBLServices>();
+builder.Services.AddScoped<ICityRepositoryDAL, CityRepositoryDAL>();
+builder.Services.AddScoped<ILogsRepository, LogsRepository>();
+builder.Services.AddScoped<ICityBLServece,CityBLServece>();
+builder.Services.AddScoped<ILogsBLServices,LogsBLServices>();
 
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
+builder.Services.AddDbContext<DbContextDLA>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<DbContextDLA>(options =>options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 

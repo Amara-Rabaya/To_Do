@@ -1,6 +1,6 @@
 ﻿namespace Tranning_pro.Constants
 {
-    public class Constant
+    public static class Constant
     {
        
         
