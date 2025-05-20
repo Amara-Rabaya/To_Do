@@ -1,4 +1,5 @@
-﻿using DAL.Interface;
+﻿using DAL.DataBase;
+using DAL.Interface;
 using DAL.Repositores;
 using Tranning_pro.BLInterface;
 
@@ -7,10 +8,9 @@ namespace Tranning_pro.BL
     public class LogsBLServices: ILogsBLServices
     {
         private readonly ILogsRepository _ILogsRepository;
-        public LogsBLServices(ILogsRepository logsRepository)
+        public LogsBLServices(DbContextDLA context)
         {
-            _ILogsRepository = logsRepository;   
-
+            _ILogsRepository = new LogsRepository(context);
 
         }
         public bool addLog(string detalies)

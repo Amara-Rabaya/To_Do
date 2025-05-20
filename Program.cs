@@ -7,6 +7,7 @@ using DAL.Interface;
 using Tranning_pro.BL;
 using Tranning_pro.BLInterface;
 using DAL.Repositories;
+using Tranning_pro.Meddilware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,7 +34,11 @@ builder.Services.AddDbContext<DbContextDLA>(options =>
 
 builder.Services.AddDbContext<DbContextDLA>(options =>options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.Configure<HederChickSettings>(
+    builder.Configuration.GetSection("HeaderCheckSettings"));
+
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -60,5 +65,7 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.UseMiddleware<HeaderCheckMiddleware>();
 
 app.Run();
