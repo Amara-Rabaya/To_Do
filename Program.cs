@@ -8,6 +8,8 @@ using Tranning_pro.BL;
 using Tranning_pro.BLInterface;
 using DAL.Repositories;
 using Tranning_pro.Meddilware;
+using Microsoft.Extensions.Options;
+using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,15 +29,28 @@ builder.Services.AddScoped<ICityRepositoryDAL, CityRepositoryDAL>();
 builder.Services.AddScoped<ILogsRepository, LogsRepository>();
 builder.Services.AddScoped<ICityBLServece,CityBLServece>();
 builder.Services.AddScoped<ILogsBLServices,LogsBLServices>();
+builder.Services.AddScoped<IcitizenRebositoryDAL, citizenRebositoryDAL>();
+builder.Services.AddScoped<ICitizenBLService, CitizenBLService>();
 
 
 builder.Services.AddDbContext<DbContextDLA>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddDbContext<DbContextDLA>(options =>options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<DbContextDLA>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.Configure<HederChickSettings>(
     builder.Configuration.GetSection("HeaderCheckSettings"));
+
+builder.Services.Configure<MongoDbSettings>(
+    builder.Configuration.GetSection("MongoDbSettings"));
+
+builder.Services.AddSingleton<IMongoClient>(s =>
+{
+    var settings = s.GetRequiredService<IOptions<MongoDbSettings>>().Value;
+    return new MongoClient(settings.ConnectionString);
+});
+
+
 
 var app = builder.Build();
 
