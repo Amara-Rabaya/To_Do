@@ -53,7 +53,7 @@ namespace Tranning_pro.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
+        // test 
         // POST: api/citizen
         [HttpPost]
         public async Task<ActionResult> Add([FromBody] Citizen citizen)
